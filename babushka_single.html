@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Babushka</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
+</head>
+
+<style>
+    article {
+        margin: 10px 0;
+        border-radius: 10px;
+        padding-left: 25px;
+        padding-right: 20px;
+        padding-bottom: 15px;
+        padding-top: 5px;
+        background-color: #F7931E;
+
+    }
+
+    body {
+
+        margin: 50px;
+        background-color: #222323;
+    }
+
+    h2,
+    p {
+
+        font-family: 'Roboto Condensed', sans-serif;
+        color: #222323;
+
+    }
+
+    h2 {
+        text-decoration: underline;
+        font-size: 2rem;
+    }
+
+
+    img {
+        width: 40vw;
+        border-radius: 10px;
+    }
+
+    button {
+        font-family: 'Roboto Condensed', sans-serif;
+        font-size: 0.9rem;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 3px;
+        padding-top: 3px;
+        margin-right: 4px;
+        background-color: white;
+        border-radius: 7px;
+        cursor: pointer;
+    }
+
+</style>
+
+
+<body>
+
+    <header>
+
+    </header>
+
+    <main>
+
+
+        <article class="ret">
+
+
+            <h2 class="navn"> </h2>
+
+            <img src="" alt="" class="billede">
+
+
+            <p class="beskrivelse"> </p>
+
+            <p class="land"></p>
+
+            <p class="pris"></p>
+
+            <button>Tilbage</button>
+
+
+
+
+
+        </article>
+
+
+    </main>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get("id");
+
+
+        const medieurl = "https://babushka-dd8a.restdb.io/media/";
+        let retter;
+        const myHeaders = {
+
+            "x-apikey": "600ec2fb1346a1524ff12de4"
+        }
+
+        console.log("ID", id);
+
+        document.addEventListener("DOMContentLoaded", loadJSON)
+
+
+        async function loadJSON() {
+            const JSONData = await fetch(`https://babushka-dd8a.restdb.io/rest/menu/${id}`, {
+                headers: myHeaders
+            });
+            ret = await JSONData.json();
+            console.log("retter", ret);
+            visRet(ret);
+        }
+
+        //funktion der viser personer i liste view
+        function visRet() {
+            console.log()
+            document.querySelector(".navn").textContent = ret.navn;
+            document.querySelector(".billede").src = medieurl + ret.billede;
+            document.querySelector(".beskrivelse").textContent = ret.langbeskrivelse;
+            document.querySelector(".land").textContent = `Oprindelsesregion: ${ret.oprindelsesregion}`;
+            document.querySelector(".pris").textContent = `Pris: ${ret.pris},-`;
+            document.querySelector("button").addEventListener("click", tilbageTilMenu);
+
+        }
+
+
+        function tilbageTilMenu() {
+            history.back();
+
+        }
+
+    </script>
+
+</body>
+
+</html>
